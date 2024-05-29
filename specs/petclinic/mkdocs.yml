@@ -1,0 +1,5 @@
+site_name: Spring Petclinic
+nav:
+  - Home: index.md
+  - Customers Service: customers.md
+#theme: readthedocs

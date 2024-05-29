@@ -1,0 +1,4 @@
+name,birthDate,typeId,expectedName,expectedBirthDate,expectedTypeId,expectedTypeName
+Max,2024-05-26T21:00:00.000Z,2,Max,2024-05-26T00:00:00.000+00:00,2,dog
+Ginger,2024-05-26T21:00:00.000Z,1,Ginger,2024-05-26T00:00:00.000+00:00,1,cat
+

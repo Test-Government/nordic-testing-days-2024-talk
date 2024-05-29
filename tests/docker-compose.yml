@@ -1,0 +1,29 @@
+services:
+
+  generate-allure-report:
+    image: maven:3.9.7-eclipse-temurin-21-jammy
+    user: "${UID-1000}:${UID-1000}"
+    working_dir: /usr/src/tests
+    volumes:
+      - "./:/usr/src/tests"
+      - "${MAVEN_HOME_DIR-~/.m2}:/var/maven/.m2"
+    environment:
+      - TZ=Europe/Tallinn
+    command: mvn --batch-mode --update-snapshots --fail-at-end -Duser.home=/var/maven allure:report
+
+  publish-allure-report:
+    image: alpine:3.20.0
+    user: "${UID-1000}:${UID-1000}"
+    working_dir: /usr/src/tests
+    volumes:
+      - "./:/usr/src/tests"
+      - "../specs/test-report/html:/html"
+    command: cp -r /usr/src/tests/target/site/allure-maven-plugin/. /html
+
+  allure-behavior-snippets:
+    image: ghcr.io/teststuffstash/allure-behavior-snippets:v1.0.1
+    user: "${UID-1000}:${GID-1000}"
+    command: [ "/data/behaviors.json", "/data/images", "${REPORT_URL-http://ci.local.teststuff.net:8002/index.html#behaviors/}" ]
+    volumes:
+      - "./target/site/allure-maven-plugin/data/behaviors.json:/data/behaviors.json"
+      - "../specs/snippets/images:/data/images"
