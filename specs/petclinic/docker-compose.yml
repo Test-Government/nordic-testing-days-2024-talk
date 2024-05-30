@@ -1,0 +1,17 @@
+services:
+  build:
+    build: .
+    user: "${UID-1000}:${UID-1000}"
+    volumes:
+      - ".:/app"
+    working_dir: /app
+    command: "mkdocs build"
+  nginx:
+    image: nginx:1.21.3-alpine
+    ports:
+      - "8000:80"
+    volumes:
+      - "./site:/usr/share/nginx/html:ro"
+    depends_on:
+      build:
+        condition: service_completed_successfully

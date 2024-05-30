@@ -9,6 +9,7 @@ public class OwnersTest1 {
   @Test
   public void testFindOwners() {
     RestAssured.given()
+        .log().all()
         .when()
         .get("http://localhost:8080/api/customer/owners")
         .then()
@@ -30,6 +31,7 @@ public class OwnersTest1 {
   @Test
   public void testAddPet() {
     RestAssured.given()
+        .log().all()
         .contentType(ContentType.JSON)
         .body("{\"id\":0,\"name\":\"test\",\"birthDate\":\"2024-05-26T21:00:00.000Z\",\"typeId\":\"5\"}")
         .when()

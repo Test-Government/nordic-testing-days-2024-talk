@@ -1,6 +1,3 @@
-import io.qameta.allure.Feature
-import io.qameta.allure.Story
-import io.qameta.allure.restassured.AllureRestAssured
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
 import io.restassured.response.Response
@@ -13,24 +10,24 @@ import static org.hamcrest.Matchers.is
 
 class OwnersTest7 extends Specification {
 
-  @Feature("Find all owners")
-  @Story("Find owner displays pet type name")
   def "Given saved pet typeId: #typeId then findOwner returns: #expectedTypeName"() {
-    given: "test1"
-    int ownerId = OwnerService.addOwnerStep(OwnerData.sarahConnor())
+    given:
+    int ownerId = OwnerService.addOwner(OwnerData.sarahConnor())
     Map petData = petData()
     petData.typeId = typeId
     int petId = OwnerService.addPet(ownerId, petData)
 
-    when: "test2"
-    Response response = RestAssured.given()
-        .filter(new AllureRestAssured())
-        .when()
-        .get("http://localhost:8080/api/customer/owners")
+    when:
+    Response response =
+        RestAssured.given()
+            .log().all()
+            .when()
+            .get("http://localhost:8080/api/customer/owners")
 
     then:
     response
         .then()
+        .log().all()
         .statusCode(200)
         .body("size()", greaterThan(10))
         .rootPath("find { it.id == ${ownerId}}")
@@ -48,25 +45,24 @@ class OwnersTest7 extends Specification {
     "5"    || "bird"
   }
 
-  @Feature("Add pet")
-  @Story("Add pet rejects invalid values")
   def "Given add pet field #field: #value then status code #expectedStatusCode"() {
     given:
-    int ownerId = OwnerService.addOwnerStep(OwnerData.sarahConnor())
+    int ownerId = OwnerService.addOwner(OwnerData.sarahConnor())
     Map petData = petData()
     petData[field] = value
 
     when:
     Response response = RestAssured.given()
-        .filter(new AllureRestAssured())
         .contentType(ContentType.JSON)
+        .log().all()
         .body(petData)
         .when()
-        .post("http://localhost:8080/api/customer/owners/" + ownerId + "/pets")
+        .post("http://localhost:8080/api/customer/owners/${ownerId}/pets")
 
     then:
     response
         .then()
+        .log().all()
         .statusCode(expectedStatusCode)
 
     where:

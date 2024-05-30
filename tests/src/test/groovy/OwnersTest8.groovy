@@ -1,5 +1,5 @@
-import io.qameta.allure.Epic
 import io.qameta.allure.Feature
+import io.qameta.allure.Story
 import io.qameta.allure.restassured.AllureRestAssured
 import io.restassured.RestAssured
 import io.restassured.http.ContentType
@@ -11,11 +11,10 @@ import java.time.ZonedDateTime
 import static org.hamcrest.Matchers.greaterThan
 import static org.hamcrest.Matchers.is
 
-@Epic("Customers Service")
 class OwnersTest8 extends Specification {
 
   @Feature("Find all owners")
-  @CustomerRequirement("C-FIND-OWNERS-PET-TYPE-NAME")
+  @Story("Find owner displays pet type name")
   def "Given saved pet typeId: #typeId then findOwner returns: #expectedTypeName"() {
     given: "test1"
     int ownerId = OwnerService.addOwnerStep(OwnerData.sarahConnor())
@@ -50,8 +49,8 @@ class OwnersTest8 extends Specification {
   }
 
   @Feature("Add pet")
-  @CustomerRequirement("C-ADD-PET-BIRTHDATE-RANGE")
-  def "Given #description(#field: #value) then status code #expectedStatusCode"() {
+  @Story("Add pet rejects invalid values")
+  def "Given add pet field #field: #value then status code #expectedStatusCode"() {
     given:
     int ownerId = OwnerService.addOwnerStep(OwnerData.sarahConnor())
     Map petData = petData()
@@ -71,12 +70,12 @@ class OwnersTest8 extends Specification {
         .statusCode(expectedStatusCode)
 
     where:
-    description                       | field       | value                                   || expectedStatusCode
-    "valid typeId"                    | "typeId"    | "1"                                     || 201
-    "invalid typeId"                  | "typeId"    | "7"                                     || 500
-    "birthDate in past"               | "birthDate" | "0000-00-00T00:00:00.000Z"              || 201
-    "birthDate in future"             | "birthDate" | format(ZonedDateTime.now().plusDays(1)) || 201
-    "birthDate too far in the future" | "birthDate" | "100000-05-26T21:00:00.000Z"            || 500
+    field       | value                                   || expectedStatusCode
+    "typeId"    | "1"                                     || 201
+    "typeId"    | "7"                                     || 500
+    "birthDate" | "0000-00-00T00:00:00.000Z"              || 201
+    "birthDate" | format(ZonedDateTime.now().plusDays(1)) || 201
+    "birthDate" | "100000-05-26T21:00:00.000Z"            || 500
   }
 
   static Map petData() {
