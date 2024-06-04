@@ -1,0 +1,68 @@
+services:
+  applications-started:
+    image: jwilder/dockerize:0.6.1
+    command: -wait http://api-gateway:8080/api/customer/owners -timeout 300s
+    depends_on:
+      customers-service:
+        condition: service_healthy
+      api-gateway:
+        condition: service_healthy
+
+  test9:
+    image: maven:3.9.7-eclipse-temurin-21-jammy
+    user: "${UID-1000}:${UID-1000}"
+    working_dir: /usr/src/tests
+    volumes:
+      - "./:/usr/src/tests"
+      - "${MAVEN_HOME_DIR-~/.m2}:/var/maven/.m2"
+    environment:
+      - TZ=Europe/Tallinn
+      - api_server=api-gateway:8080
+    command: mvn --batch-mode --update-snapshots --fail-at-end -Duser.home=/var/maven -Dtest=OwnersTest9 clean test
+    depends_on:
+      applications-started:
+        condition: service_completed_successfully
+
+  reset-test-data:
+    image: alpine/curl:8.7.1
+    command: curl -kv http://testdata:8080/reset
+    depends_on:
+      test9:
+        condition: service_completed_successfully
+
+  generate-allure-report:
+    image: maven:3.9.7-eclipse-temurin-21-jammy
+    user: "${UID-1000}:${UID-1000}"
+    working_dir: /usr/src/tests
+    volumes:
+      - "./:/usr/src/tests"
+      - "${MAVEN_HOME_DIR-~/.m2}:/var/maven/.m2"
+    environment:
+      - TZ=Europe/Tallinn
+    command: mvn --batch-mode --update-snapshots --fail-at-end -Duser.home=/var/maven allure:report
+    depends_on:
+      test9:
+        condition: service_completed_successfully
+
+  publish-allure-report:
+    image: alpine:3.20.0
+    user: "${UID-1000}:${UID-1000}"
+    working_dir: /usr/src/tests
+    volumes:
+      - "./:/usr/src/tests"
+      - "../specs/test-report/html:/html"
+    command: cp -r /usr/src/tests/target/site/allure-maven-plugin/. /html
+    depends_on:
+      generate-allure-report:
+        condition: service_completed_successfully
+
+  allure-behavior-snippets:
+    image: ghcr.io/teststuffstash/allure-behavior-snippets:v1.0.1
+    user: "${UID-1000}:${GID-1000}"
+    command: [ "/data/tests/target/site/allure-maven-plugin/data/behaviors.json", "/data/images", "${REPORT_URL-http://ci.local.teststuff.net:8002/index.html#behaviors/}" ]
+    volumes:
+      - "./:/data/tests"
+      - "../specs/snippets/images:/data/images"
+    depends_on:
+      generate-allure-report:
+        condition: service_completed_successfully

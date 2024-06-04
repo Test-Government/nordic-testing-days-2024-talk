@@ -1,5 +1,5 @@
+# Publish test run result, run tests manually in IDE first
 services:
-
   generate-allure-report:
     image: maven:3.9.7-eclipse-temurin-21-jammy
     user: "${UID-1000}:${UID-1000}"

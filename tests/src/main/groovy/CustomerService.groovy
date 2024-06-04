@@ -48,6 +48,20 @@ class CustomerService {
         .path("id")
   }
 
+  @Step("Add pet")
+  static int addPetStep(Integer owner, Map petData) {
+    return RestAssured.given()
+        .filter(new AllureRestAssured())
+        .contentType(ContentType.JSON)
+        .body(petData)
+        .when()
+        .post("http://localhost:8080/api/customer/owners/" + owner + "/pets")
+        .then()
+        .statusCode(201)
+        .extract()
+        .path("id")
+  }
+
   @Step("Add owner")
   static int addOwnerStepWithName(Map ownerData) {
     Allure.getLifecycle().updateStep {
@@ -58,7 +72,7 @@ class CustomerService {
         .contentType(ContentType.JSON)
         .body(ownerData)
         .when()
-        .post("http://localhost:8080/api/customer/owners")
+        .post("http://${System.getenv('api_server') ?: 'localhost:8080'}/api/customer/owners")
         .then()
         .statusCode(201)
         .extract()
@@ -82,7 +96,7 @@ class CustomerService {
         .contentType(ContentType.JSON)
         .body(petData)
         .when()
-        .post("http://localhost:8080/api/customer/owners/${ownerData.id}/pets")
+        .post("http://${System.getenv('api_server') ?: 'localhost:8080'}/api/customer/owners/${ownerData.id}/pets")
         .then()
         .statusCode(201)
         .extract()

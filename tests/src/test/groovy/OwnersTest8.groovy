@@ -20,7 +20,7 @@ class OwnersTest8 extends Specification {
     int ownerId = CustomerService.addOwnerStep(OwnerData.sarahConnor())
     Map petData = petData()
     petData.typeId = typeId
-    int petId = CustomerService.addPet(ownerId, petData)
+    int petId = CustomerService.addPetStep(ownerId, petData)
 
     when: "test2"
     Response response = RestAssured.given()
@@ -89,5 +89,4 @@ class OwnersTest8 extends Specification {
   static String format(ZonedDateTime zonedDateTime) {
     zonedDateTime.format("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'")
   }
-
 }

@@ -1,7 +1,8 @@
 include:
-  - ../specs/petclinic/docker-compose-include.yml  #with serviceB declared
-  - ../specs/snippets/docker-compose.yml  #with serviceB declared
-  - ../specs/test-report/docker-compose.yml  #with serviceB declared
+  - ../specs/petclinic/docker-compose-include.yml #Just serve specifications already in git
+  - ../specs/snippets/docker-compose.yml  #Serve svg images of test run for specifications
+  - ../specs/test-report/docker-compose.yml  #Serve Allure report of test run
+  - ../tests/docker-compose-snippets.yml #Run OwnersTest9, generate and publish Allure report, publish requirement snippets
 
 services:
   config-server:
@@ -51,6 +52,11 @@ services:
           memory: 512M
     environment:
       - SPRING_PROFILES_ACTIVE=docker,mysql
+    healthcheck:
+      test: curl -k http://localhost:8081/actuator/health || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 55
     depends_on:
       config-server:
         condition: service_healthy
@@ -77,6 +83,8 @@ services:
         condition: service_healthy
       mysql:
         condition: service_healthy
+      customers-service:
+        condition: service_healthy #Needs pets table to exist, otherwise startup fails with: Failed to execute SQL script statement #4 of file [/application/BOOT-INF/classes/db/mysql/schema.sql]: CREATE TABLE IF NOT EXISTS visits ( id INT(4) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY, pet_id INT(4) UNSIGNED NOT NULL, visit_date DATE, description VARCHAR(8192), FOREIGN KEY (pet_id) REFERENCES pets(id) ) engine=InnoDB
     ports:
       - "8082:8082"
 
@@ -111,6 +119,11 @@ services:
         condition: service_healthy
       discovery-server:
         condition: service_healthy
+    healthcheck:
+      test: curl -k http://localhost:8080/actuator/health || exit 1
+      interval: 5s
+      timeout: 5s
+      retries: 55
     ports:
       - "8080:8080"
 
@@ -157,9 +170,10 @@ services:
 
   testdata:
     container_name: testdata
-    build:
-      context: ../testdata
-      dockerfile: Dockerfile
+    #build:
+    #  context: ../testdata
+    #  dockerfile: Dockerfile
+    image: ghcr.io/test-government/ntd_2024_talk-petclinic-testdata:${petclinic_testdata_version:-main}
     environment:
       db_url: "jdbc:mysql://mysql:3306/petclinic"
       db_username: root
@@ -170,4 +184,3 @@ services:
         condition: service_healthy
     ports:
       - "8085:8080"
-

@@ -224,12 +224,9 @@
               <!--<value>io.qameta.allure.spock2.AllureSpock2</value>-->
             </property>
           </properties>
-          <systemProperties>
-            <property>
-              <name>allure.results.directory</name>
-              <value>${project.build.directory}/allure-results</value>
-            </property>
-          </systemProperties>
+          <systemPropertyVariables>
+            <allure.results.directory>${project.build.directory}/allure-results</allure.results.directory>
+          </systemPropertyVariables>
         </configuration>
       </plugin>
       <plugin>

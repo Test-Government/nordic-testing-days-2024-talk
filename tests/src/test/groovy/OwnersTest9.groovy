@@ -28,7 +28,7 @@ class OwnersTest9 extends Specification {
     Response response = RestAssured.given()
         .filter(new AllureRestAssured())
         .when()
-        .get("http://localhost:8080/api/customer/owners")
+        .get("http://${System.getenv('api_server') ?: 'localhost:8080'}/api/customer/owners")
 
     then:
     Steps.step("Owner ${ownerData.firstName} ${ownerData.lastName} has pet ${expectedTypeName} ${petData.name}") {
@@ -66,7 +66,7 @@ class OwnersTest9 extends Specification {
         .contentType(ContentType.JSON)
         .body(petData)
         .when()
-        .post("http://localhost:8080/api/customer/owners/${ownerId}/pets")
+        .post("http://${System.getenv('api_server') ?: 'localhost:8080'}/api/customer/owners/${ownerId}/pets")
 
     then:
     response
