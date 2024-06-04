@@ -1,0 +1,19 @@
+types:
+  - name: Parastratiosphecomyia stratiosphecomyioides Brunetti #https://en.wikipedia.org/wiki/List_of_long_species_names
+    id: &fly 1
+
+owners:
+  - id: 1
+    #TODO: column is 30 characters in DB
+    first_name: Kim-Jong Sexy Glorious Beast #Divine Dick Father Lovely Iron Man Even Unique Poh Un Winn Charlie Ghora Khaos Mehan Hansa Kimmy Humbero Uno Master Over Dance Shake Bouti Bepop Rocksteady Shredder Kung Ulf Road House Gilgamesh Flap Guy Theo Arse Hole Im Yoda Funky Boy Slam Duck Chuck Jorma Jukka Pekka Ryan Super Air Ooy Rusell Salvador Alfons Molgan Akta Papa Long Nameh #https://abcnews.go.com/International/swedish-mans-63-word-worlds-longest/story?id=24421072
+    last_name: Ek
+    address: 1806/127/2/6/15/482D #https://www.quora.com/What-is-the-highest-house-number-in-any-street-address-in-the-world#:~:text=The%20current%20longest%20house%20address,Ho%20Chi%20Minh%20city%2C%20Vietnam.
+    #TODO: column is 80 characters in DB
+    city: "Taumata­whakatangihanga­koauau­o­tamatea­turi­pukaka­piki­maunga­horo­nuku­pokai"#­whenua­ki­tana­tahu" #https://en.wikipedia.org/wiki/List_of_long_place_names
+    telephone: "6085551023"
+    pets:
+      #TODO: column is 30 characters in DB
+      - id: 1
+        name: Death Star Explosions Ace #Rebel Pilot Maxfield (Max) #https://www.tiktok.com/@figopet/video/7185686750231055659
+        birth_date: 2010-09-07
+        type_id: *fly

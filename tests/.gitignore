@@ -36,9 +36,3 @@ build/
 ### Allure ###
 allure-results/
 .allure
-
-# Secrets
-/src/test/resources/application.properties
-/src/test/resources/sensitive.properties
-**.pem
-.env

@@ -1,0 +1,17 @@
+types:
+  - name: elephant
+    id: &elephant 7
+
+owners:
+  - id: 1
+    first_name: George
+    last_name: Franklin
+    address: 110 W. Liberty St.
+    city: Madison
+    telephone: "6085551023"
+    pets:
+      - id: 1
+        name: Dumbo
+        birth_date: 2010-09-07
+        type_id: *elephant
+

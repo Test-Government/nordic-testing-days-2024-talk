@@ -31,10 +31,10 @@ class OwnersTest6 {
                      ["5", "bird"]]
 
     testData.each {
-      int ownerId = OwnerService.addOwner(ownerData)
+      int ownerId = CustomerService.addOwner(ownerData)
 
       petData.typeId = it[0]
-      int petId = OwnerService.addPet(ownerId, petData)
+      int petId = CustomerService.addPet(ownerId, petData)
 
       RestAssured.given()
           .log().all()
@@ -60,7 +60,7 @@ class OwnersTest6 {
 
   @Test
   void testAddPet() {
-    int ownerId = OwnerService.addOwner(OwnerData.sarahConnor())
+    int ownerId = CustomerService.addOwner(OwnerData.sarahConnor())
 
     List testData = [[petData: [typeId: "1"], expectedStatus: 201],
                      [petData: [typeId: "7"], expectedStatus: 500],

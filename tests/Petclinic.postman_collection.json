@@ -1,0 +1,129 @@
+{
+	"info": {
+		"_postman_id": "c5bd18d2-12f7-4bf7-9ccf-33ac86f0e3da",
+		"name": "Petclinic",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "3563192",
+		"_collection_link": "https://www.postman.com/speeding-crater-6974/workspace/petclinic/collection/3563192-c5bd18d2-12f7-4bf7-9ccf-33ac86f0e3da?action=share&source=collection_link&creator=3563192"
+	},
+	"item": [
+		{
+			"name": "Find all owners",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const owner = pm.response.json()[0];",
+							"const pets = pm.response.json()[0].pets;",
+							"",
+							"pm.test('Status code is 200', () => {",
+							"  pm.expect(pm.response.code).to.eql(200);",
+							"});",
+							"",
+							"pm.test('Owner George has customer information data', function () {",
+							"    pm.expect(owner.id).to.eql(1);",
+							"    pm.expect(owner.firstName).to.eql('George');",
+							"    pm.expect(owner.lastName).to.eql('Franklin');",
+							"    pm.expect(owner.address).to.eql('110 W. Liberty St.');",
+							"    pm.expect(owner.city).to.eql('Madison');",
+							"    pm.expect(owner.telephone).to.eql('6085551023');",
+							"});",
+							"",
+							"pm.test('George number of pets = ' + pets.length, function () {",
+							"    pm.expect(pets.length).to.equal(1);",
+							"});",
+							"",
+							"pm.test('George has a cat named Leo', function () {",
+							"    pm.expect(pets[0].id).to.eql(1);",
+							"    pm.expect(pets[0].name).to.eql('Leo');",
+							"    pm.expect(pets[0].birthDate).to.eql('2000-09-07');",
+							"    pm.expect(pets[0].type.id).to.eql(1);",
+							"    pm.expect(pets[0].type.name).to.eql('cat');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/api/customer/owners",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customer",
+						"owners"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Add pet",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var data = pm.response.json();",
+							"",
+							"pm.test('Status code is 201', () => {",
+							"  pm.expect(pm.response.code).to.eql(201);",
+							"});",
+							"",
+							"pm.test('Response has saved request data', function () {",
+							"    pm.expect(data.id).to.greaterThan(10);",
+							"    pm.expect(data.name).to.eql('test');",
+							"    pm.expect(data.birthDate).to.eql('2024-05-26T00:00:00.000+00:00');",
+							"    pm.expect(data.type.id).to.eql(5);",
+							"});",
+							"",
+							"pm.test('Type has name bird', function () {",
+							"    pm.expect(data.type.name).to.eql('bird');",
+							"});"
+						],
+						"type": "text/javascript",
+						"packages": {}
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"id\":0,\n    \"name\":\"test\",\n    \"birthDate\":\"2024-05-26T21:00:00.000Z\",\n    \"typeId\":\"5\"\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/api/customer/owners/1/pets",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"api",
+						"customer",
+						"owners",
+						"1",
+						"pets"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}

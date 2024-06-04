@@ -17,10 +17,10 @@ class OwnersTest8 extends Specification {
   @Story("Find owner displays pet type name")
   def "Given saved pet typeId: #typeId then findOwner returns: #expectedTypeName"() {
     given: "test1"
-    int ownerId = OwnerService.addOwnerStep(OwnerData.sarahConnor())
+    int ownerId = CustomerService.addOwnerStep(OwnerData.sarahConnor())
     Map petData = petData()
     petData.typeId = typeId
-    int petId = OwnerService.addPet(ownerId, petData)
+    int petId = CustomerService.addPet(ownerId, petData)
 
     when: "test2"
     Response response = RestAssured.given()
@@ -52,7 +52,7 @@ class OwnersTest8 extends Specification {
   @Story("Add pet rejects invalid values")
   def "Given add pet field #field: #value then status code #expectedStatusCode"() {
     given:
-    int ownerId = OwnerService.addOwnerStep(OwnerData.sarahConnor())
+    int ownerId = CustomerService.addOwnerStep(OwnerData.sarahConnor())
     Map petData = petData()
     petData[field] = value
 

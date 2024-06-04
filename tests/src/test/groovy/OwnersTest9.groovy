@@ -19,10 +19,10 @@ class OwnersTest9 extends Specification {
   def "Given saved pet typeId: #typeId then findOwner returns: #expectedTypeName"() {
     given: "test1"
     Map ownerData = OwnerData.sarahConnor()
-    ownerData.id = OwnerService.addOwnerStepWithName(ownerData)
+    ownerData.id = CustomerService.addOwnerStepWithName(ownerData)
     Map petData = petData()
     petData.typeId = typeId
-    petData.id = OwnerService.addPetStepWithName(ownerData, petData)
+    petData.id = CustomerService.addPetStepWithName(ownerData, petData)
 
     when: "test2"
     Response response = RestAssured.given()
@@ -56,7 +56,7 @@ class OwnersTest9 extends Specification {
   @CustomerRequirement("C-ADD-PET-BIRTHDATE-RANGE")
   def "Given #description(#field: #value) then status code #expectedStatusCode"() {
     given:
-    int ownerId = OwnerService.addOwnerStepWithName(OwnerData.sarahConnor())
+    int ownerId = CustomerService.addOwnerStepWithName(OwnerData.sarahConnor())
     Map petData = petData()
     petData[field] = value
 

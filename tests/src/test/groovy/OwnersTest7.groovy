@@ -12,10 +12,10 @@ class OwnersTest7 extends Specification {
 
   def "Given saved pet typeId: #typeId then findOwner returns: #expectedTypeName"() {
     given:
-    int ownerId = OwnerService.addOwner(OwnerData.sarahConnor())
+    int ownerId = CustomerService.addOwner(OwnerData.sarahConnor())
     Map petData = petData()
     petData.typeId = typeId
-    int petId = OwnerService.addPet(ownerId, petData)
+    int petId = CustomerService.addPet(ownerId, petData)
 
     when:
     Response response =
@@ -47,7 +47,7 @@ class OwnersTest7 extends Specification {
 
   def "Given add pet field #field: #value then status code #expectedStatusCode"() {
     given:
-    int ownerId = OwnerService.addOwner(OwnerData.sarahConnor())
+    int ownerId = CustomerService.addOwner(OwnerData.sarahConnor())
     Map petData = petData()
     petData[field] = value
 
