@@ -173,7 +173,7 @@ services:
     #build:
     #  context: ../testdata
     #  dockerfile: Dockerfile
-    image: ghcr.io/test-government/ntd_2024_talk-petclinic-testdata:${petclinic_testdata_version:-main}
+    image: ghcr.io/test-government/nordic-testing-days-2024-talk-petclinic-testdata:${petclinic_testdata_version:-main}
     environment:
       db_url: "jdbc:mysql://mysql:3306/petclinic"
       db_username: root
