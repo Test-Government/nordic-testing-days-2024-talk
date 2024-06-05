@@ -26,5 +26,6 @@ replay_pid*
 
 /specs/test-report/html/*
 !/specs/test-report/html/.gitkeep
+specs/snippets/images/*
 
 /.idea/
