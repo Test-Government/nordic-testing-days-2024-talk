@@ -17,14 +17,14 @@ class OwnersTest9 extends Specification {
   @Feature("Find all owners")
   @CustomerRequirement("C-FIND-OWNERS-PET-TYPE-NAME")
   def "Given saved pet typeId: #typeId then findOwner returns: #expectedTypeName"() {
-    given: "test1"
+    given: "Owner Sarah Connor"
     Map ownerData = OwnerData.sarahConnor()
     ownerData.id = CustomerService.addOwnerStepWithName(ownerData)
     Map petData = petData()
     petData.typeId = typeId
     petData.id = CustomerService.addPetStepWithName(ownerData, petData)
 
-    when: "test2"
+    when: "Get all owners"
     Response response = RestAssured.given()
         .filter(new AllureRestAssured())
         .when()

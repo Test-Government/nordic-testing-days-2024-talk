@@ -19,11 +19,17 @@ services:
       - "./:/usr/src/tests"
       - "../specs/test-report/html:/html"
     command: cp -r /usr/src/tests/target/site/allure-maven-plugin/. /html
+    depends_on:
+      generate-allure-report:
+        condition: service_completed_successfully
 
   allure-behavior-snippets:
     image: ghcr.io/teststuffstash/allure-behavior-snippets:v1.0.1
     user: "${UID-1000}:${GID-1000}"
-    command: [ "/data/behaviors.json", "/data/images", "${REPORT_URL-http://ci.local.teststuff.net:8002/index.html#behaviors/}" ]
+    command: [ "/data/tests/target/site/allure-maven-plugin/data/behaviors.json", "/data/images", "${REPORT_URL-http://ci.local.teststuff.net:8002/index.html#behaviors/}" ]
     volumes:
-      - "./target/site/allure-maven-plugin/data/behaviors.json:/data/behaviors.json"
+      - "./:/data/tests"
       - "../specs/snippets/images:/data/images"
+    depends_on:
+      generate-allure-report:
+        condition: service_completed_successfully

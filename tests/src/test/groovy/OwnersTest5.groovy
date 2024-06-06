@@ -5,7 +5,6 @@ import org.junit.jupiter.api.Test
 import static org.hamcrest.Matchers.greaterThan
 import static org.hamcrest.Matchers.is
 
-//TODO: String literal
 class OwnersTest5 {
   static int addOwner(Map ownerData) {
     return RestAssured.given()

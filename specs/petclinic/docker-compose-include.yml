@@ -1,5 +1,5 @@
 services:
-  nginx:
+  specifications:
     image: nginx:1.21.3-alpine
     ports:
       - "8000:80"
