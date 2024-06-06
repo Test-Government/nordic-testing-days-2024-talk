@@ -1,4 +1,12 @@
-# Petclinic
+<img src="Nortal_logo.svg" alt="Nortal logo" width="256px">
+
+# Introduction
+
+This a talk given at [Nordic Testing days 2024](https://ntd2024.sched.com/event/1dcCU/partner-track-you-must-not-use-postman-for-test-automation-according-to-rfc-9225?iframe=no) and playground to try Spock, Rest-Assured and Allure
+[Abstract](./presentation/abstract.md)
+# Usage guide
+
+Clone this repository
 
 ```shell
 cd petclinic
@@ -31,10 +39,10 @@ graphics protocol, or sixel. Some of the terminals where at least one of these i
 Run the following command to view the presentation in your terminal:
 
 ```shell
-docker run --rm -it -e TERM="$TERM" ghcr.io/test-government/nordic-testing-days-2024-talk:main  
+docker run --rm -it -e TERM="$TERM" ghcr.io/test-government/nordic-testing-days-2024-talk:v1.0.1  
 ```
 
-Windows users can view the PDF or ping Leonard to work on issues:
+Windows users can view the PDF under releases or ping Leonard to work on issues:
 
 * https://github.com/microsoft/terminal/issues/5746
 * https://github.com/microsoft/terminal/issues/8389

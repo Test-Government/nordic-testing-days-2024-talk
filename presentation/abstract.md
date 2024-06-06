@@ -1,4 +1,4 @@
-You MUST NOT use Postman for test automation according to RFC-9225
+# You MUST NOT use Postman for test automation according to RFC-9225
 
 Take a peek behind the testing curtain of Estonian authentication and digital signature services - ID-card, Mobile-ID,
 Smart-ID, Central authentication(TARA) and authorisation systems, SiGa, SiVa, etc.
